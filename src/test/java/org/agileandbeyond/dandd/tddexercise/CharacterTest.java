@@ -245,4 +245,50 @@ public class CharacterTest {
 		assertEquals(0, character.getExperiencePoints());
 	}
 	
+	@Test
+	public void shouldHaveALevelOfOneWhenCharacterIsCreated() {
+		assertEquals(1, character.getLevel());
+	}
+	
+	@Test
+	public void shouldHaveALevelOfTwoWhenCharacterReaches1000ExperiencePoints() {
+		character.increaseExperiencePoints(1000);
+		
+		assertEquals(2, character.getLevel());
+	}
+	
+	@Test
+	public void shouldHaveALevelOfThreeWhenCharacterReaches2000ExperiencePoints() {
+		character.increaseExperiencePoints(2000);
+		
+		assertEquals(3, character.getLevel());
+	}
+	
+	@Test
+	public void shouldHaveALevelOfThreeWhenCharacterReaches2999ExperiencePoints() {
+		character.increaseExperiencePoints(2999);
+		
+		assertEquals(3, character.getLevel());
+	}
+	
+	@Test
+	public void shouldIncreaseHitPointsBy5WhenConstitutionModifierIsZeroAndLevelIncreases() {
+		character.increaseLevel(1);
+		
+		assertEquals(10, character.getHitPoints());
+	}
+	
+	@Test
+	public void shouldIncreaseHitPointsBy9WhenConstitutionModifierIsPlus4AndLevelIncreases() {
+		character.setConstitution(18);
+		character.increaseLevel(1);
+		
+		assertEquals(14, character.getHitPoints());
+	}
+	
+	@Test
+	public void shouldHaveAttackRollLevelBonusOfZeroWhenCharacterIsLevelOne() {
+		assertEquals(0, character.getAttackRollLevelBonus());
+	}
+	
 }

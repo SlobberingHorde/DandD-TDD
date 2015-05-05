@@ -10,9 +10,13 @@ public class Character {
 	private String name;
 	private Alignment alignment;
 	private int experiencePoints;
+	private int level = 1;
 	private int armorClass = 10;
 	private int hitPoints = 5;
 	private Map<AbilityType, Ability> abilities;
+
+	private int attackRollLevelBonus;
+	
 
 	public Character() {
 		abilities = new HashMap<AbilityType, Ability>();
@@ -111,7 +115,7 @@ public class Character {
 		
 		if (attackRoll >= combatant.getArmorClass()) {
 			hit = true;
-			experiencePoints+=10;
+			increaseExperiencePoints(10);
 			if (attackRoll == CRITICAL_HIT) {
 				damage = damage * 2;
 			}
@@ -119,6 +123,39 @@ public class Character {
 		}
 		
 		return hit;
+	}
+
+	public int getLevel() {
+		return level;
+	}
+	
+	protected void increaseExperiencePoints(int increase) {
+		int currentLevel = this.level;
+		
+		experiencePoints+=increase;
+		
+		int newLevel = (experiencePoints/1000)+1;
+		if (newLevel > currentLevel) {
+			int increaseLevelBy = newLevel-level;
+			increaseLevel(increaseLevelBy);
+		}
+	}
+	
+	protected void increaseLevel(int increase) {
+		level+=increase;
+		
+		int increaseHitPointsBy = increase*5+getAbility(AbilityType.CONSTITUTION).getModifier();
+		increaseHitPoints(increaseHitPointsBy);
+		
+		int newAttackRollLevelBonus = (level/2);
+	}
+	
+	protected void increaseHitPoints(int increase) {
+		hitPoints+=increase;
+	}
+
+	public int getAttackRollLevelBonus() {
+		return attackRollLevelBonus;
 	}
 
 }
